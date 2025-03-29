@@ -11,6 +11,7 @@
 #include "BloqueMadera.h"
 #include "BloqueLadrillo.h"
 #include "BloqueConcreto.h"
+#include "Ballom.h"
 
 ABomberMan_012025GameMode::ABomberMan_012025GameMode()
 {
@@ -24,6 +25,7 @@ ABomberMan_012025GameMode::ABomberMan_012025GameMode()
 void ABomberMan_012025GameMode::BeginPlay()
 {
     Super::BeginPlay();
+
     //portal
     FTransform Transform1, Transform3;
     Transform1.SetLocation(FVector(1000.f, 2000.f, 1500.f)); // ejemplo
@@ -42,7 +44,7 @@ void ABomberMan_012025GameMode::BeginPlay()
     // Mapa del laberinto:
    // 0 = vacío, 1 = madera, 2 = ladrillo, 3 = concreto, 4 = acero
     MapaLaberinto = {
-    {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
+{4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
 {4,0,0,0,0,4,0,1,1,0,0,4,0,1,0,4,0,0,0,1,0,0,1,0,4},
 {4,0,4,4,4,4,0,2,4,4,0,4,0,0,0,4,2,4,0,1,0,0,2,0,4},
 {4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,0,4},
@@ -74,7 +76,19 @@ void ABomberMan_012025GameMode::BeginPlay()
     };
 
     GenerarLaberinto();
+    // Spawnear un Ballom en una posición del laberinto
+    FVector PosicionBallom(2470.f, 4500.0f, 50.f);
+    FRotator RotacionBallom = FRotator::ZeroRotator;
 
+    FActorSpawnParameters SpawnParams;
+    SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+    ABallom* EnemigoBallom = GetWorld()->SpawnActor<ABallom>(ABallom::StaticClass(), PosicionBallom, RotacionBallom, SpawnParams);
+
+    if (EnemigoBallom)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("¡Ballom ha sido invocado!"));
+    }
     /*
     //PARA BLOQUE Y MURO INTERCALADOS
     GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Red, TEXT("Generando bloques y muros intercalados"));

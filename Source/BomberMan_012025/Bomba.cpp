@@ -54,7 +54,7 @@ void ABomba::Explotar()
 		TEXT("ParticleSystem'/Game/StarterContent/Particles/P_Explosion.P_Explosion'")
 	));
 
-	// ✅ CENTRO de la bomba
+	// ✅	CENTRO de la bomba
 	FVector Centro = GetActorLocation();
 	Centro.Z += 50.f;
 
