@@ -89,7 +89,7 @@ void ABomberMan_012025Character::BeginPlay()
 		}
 	}
 	// Cambiar ubicación al comenzar
-	FVector NuevaPosicion(2470.0f, 4500.0f, 1340.0f); // X, Y, Z (ajusta esto según tu escenario)
+	FVector NuevaPosicion(2470.0f, 4500.0f, 7200.0f); // X, Y, Z (ajusta esto según tu escenario)
 	SetActorLocation(NuevaPosicion);
 }
 void ABomberMan_012025Character::Tick(float DeltaTime)

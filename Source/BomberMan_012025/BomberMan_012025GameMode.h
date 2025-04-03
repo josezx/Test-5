@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "CompuertaTeletransportadora.h"// portal
+#include "Bloque.h"
 #include "BomberMan_012025GameMode.generated.h"
 
 
@@ -21,7 +22,7 @@ public:
 public:
 
 	UPROPERTY()
-	TArray<AActor*> BloquesA; // Guarda todos los bloques generados
+	TArray<ABloque*> BloquesA; // Guarda todos los bloques generados
 	TArray<TArray<int32>> MapaLaberinto;
 	//portal para abajo
 	UPROPERTY()
@@ -33,6 +34,11 @@ public:
 	UPROPERTY()
 	ACompuertaTeletransportadora* Compuerta3;
 	void GenerarLaberinto();
+
+
+	ABloque* BloqueActual = nullptr;
+	FTimerHandle TimerEliminarBloque;
+	void EliminarBloque();
 };
 
 
