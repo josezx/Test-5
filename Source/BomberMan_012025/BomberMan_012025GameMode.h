@@ -32,7 +32,6 @@ public:
 
 	UPROPERTY()
 	ACompuertaTeletransportadora* Compuerta3;
-
 	void GenerarLaberinto();
 };
 

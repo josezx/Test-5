@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "CompuertaTeletransportadora.h"
@@ -7,6 +7,7 @@
 #include "BomberMan_012025Character.h"
 #include "Engine/Engine.h"
 #include "TimerManager.h"
+#include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
 // Sets default values
 ACompuertaTeletransportadora::ACompuertaTeletransportadora()
@@ -15,13 +16,17 @@ ACompuertaTeletransportadora::ACompuertaTeletransportadora()
 	PrimaryActorTick.bCanEverTick = true;
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
 	RootComponent = MeshComp;
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAsset(TEXT("/Game/StarterContent/Shapes/Shape_Cube.Shape_Cube"));
-	if (MeshAsset.Succeeded())
+	// Cargar el Static Mesh del teletransportador
+		static ConstructorHelpers::FObjectFinder<UStaticMesh> TeleportMesh(TEXT("StaticMesh'/Game/Modelos3d/Teleport/teleporter1_Cylinder_054.teleporter1_Cylinder_054'"));
+	if (TeleportMesh.Succeeded())
 	{
-		MeshComp->SetStaticMesh(MeshAsset.Object);
-		MeshComp->SetRelativeScale3D(FVector(0.4f, 0.4f, 0.2f)); // Aquí cambias el tamaño visual del cubo
+		MeshComp->SetStaticMesh(TeleportMesh.Object);
+		MeshComp->SetRelativeScale3D(FVector(0.74f)); // Puedes ajustar el tamaÃ±o aquÃ­
 	}
-
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("âŒ NO se pudo cargar el mesh de la compuerta"));
+	}
 	MeshComp->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
 	MeshComp->SetGenerateOverlapEvents(true);
 	// Configurar colisiones
@@ -65,7 +70,7 @@ void ACompuertaTeletransportadora::OnOverlapBegin(UPrimitiveComponent* Overlappe
 	float* UltimoTiempo = GameModeRef->ActoresTeletransportados.Find(OtherActor);
 	if (UltimoTiempo && TiempoActual - *UltimoTiempo < TiempoEsperaTeletransporte)
 	{
-		return; // Aún en cooldown
+		return; // AÃºn en cooldown
 	}
 
 	// Actualizar tiempo

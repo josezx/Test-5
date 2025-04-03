@@ -48,7 +48,9 @@ class ABomberMan_012025Character : public ACharacter
 
 public:
 	ABomberMan_012025Character();
-	
+	/** Muestra coordenadas si hay una bomba cercana */
+	void MostrarCoordenadasSiCerca();
+	virtual void Tick(float DeltaTime) override;
 
 protected:
 

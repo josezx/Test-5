@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -24,6 +24,10 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(VisibleAnywhere)
 	class UStaticMeshComponent* Mesh;
+	// ðŸ§± Componentes visuales
+
+	UPROPERTY(VisibleAnywhere)
+	class UStaticMeshComponent* Mecha; // Mecha encima
 
 	UPROPERTY(EditAnywhere, Category = "Bomba")
 	float TiempoParaExplotar = 2.0f;
@@ -32,9 +36,9 @@ public:
 	FTimerHandle TimerFuegoCentral;
 
 	void Explotar();
-	UPROPERTY(EditAnywhere, Category = "Explosión")
-	int32 RangoExplosion = 3; // Cuántos bloques alcanza la explosión (en cada dirección)
+	UPROPERTY(EditAnywhere, Category = "ExplosiÃ³n")
+	int32 RangoExplosion = 3; // CuÃ¡ntos bloques alcanza la explosiÃ³n (en cada direcciÃ³n)
 
-	UPROPERTY(EditAnywhere, Category = "Explosión")
+	UPROPERTY(EditAnywhere, Category = "ExplosiÃ³n")
 	float DistanciaEntreBloques = 300.f; // Distancia base entre bloques
 };

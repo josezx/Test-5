@@ -13,14 +13,28 @@ ABomba::ABomba()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	// Crear el cuerpo de la bomba
+	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Cuerpo"));
 	RootComponent = Mesh;
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAsset(TEXT("/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere"));
-	if (MeshAsset.Succeeded())
+	// Crear la mecha y adjuntarla al cuerpo
+	Mecha = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mecha"));
+	Mecha->SetupAttachment(Mesh);
+
+	// Cargar modelo del cuerpo
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> CuerpoMesh(TEXT("StaticMesh'/Game/Modelos3d/Bomba_Cylinder002.Bomba_Cylinder002'"));
+	if (CuerpoMesh.Succeeded())
 	{
-		Mesh->SetStaticMesh(MeshAsset.Object);
+		Mesh->SetStaticMesh(CuerpoMesh.Object);
 		Mesh->SetWorldScale3D(FVector(0.4f));
+	}
+
+	// Cargar modelo de la mecha
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> MechaMesh(TEXT("StaticMesh'/Game/Modelos3d/Bomba_Object001.Bomba_Object001'"));
+	if (MechaMesh.Succeeded())
+	{
+		Mecha->SetStaticMesh(MechaMesh.Object);
+		Mecha->SetRelativeLocation(FVector(0, 0, 5)); // Ajusta según necesidad
 	}
 }
 
@@ -148,7 +162,7 @@ void ABomba::Explotar()
 				PosCheck + FVector(0, 0, 100),
 				PosCheck - FVector(0, 0, 100),
 				ECC_WorldDynamic,
-				Params
+				Params	
 			);
 
 			if (Impacto && Hit.GetActor())

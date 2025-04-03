@@ -29,7 +29,7 @@ AEnemigoCharacter::AEnemigoCharacter()
 		GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -90.f)); // Ajustar altura
 		GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, 0.f)); // Orientar hacia adelante
 	}
-	static ConstructorHelpers::FObjectFinder<UAnimationAsset> WalkAnim(TEXT("/Script/Engine.AnimSequence'/Game/Characters/Mannequins/Animations/Quinn/MF_Run_Fwd.MF_Run_Fwd'"));
+	static ConstructorHelpers::FObjectFinder<UAnimationAsset> WalkAnim(TEXT("/Script/Engine.AnimBlueprint'/Game/Characters/Mannequins/Animations/ABP_BOMBER.ABP_BOMBER'"));
 	if (WalkAnim.Succeeded())
 	{
 		GetMesh()->PlayAnimation(WalkAnim.Object, true); // true = loop

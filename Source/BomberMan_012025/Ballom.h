@@ -15,4 +15,6 @@ class BOMBERMAN_012025_API ABallom : public AEnemigoCharacter
 	GENERATED_BODY()
 public:
 	ABallom();
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Componentes")
+	USkeletalMeshComponent* MeshEsqueletico;
 };

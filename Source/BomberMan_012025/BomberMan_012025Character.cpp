@@ -13,6 +13,7 @@
 #include "InputMappingContext.h"// para mapear el boton de la bomba
 #include "InputAction.h"// para mapear el boton de la bomba
 #include "Bomba.h"//bomba
+#include "EngineUtils.h" // Para TActorIterator
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 //////////////////////////////////////////////////////////////////////////
@@ -20,6 +21,8 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 ABomberMan_012025Character::ABomberMan_012025Character()
 {
+	// Activar Tick
+	PrimaryActorTick.bCanEverTick = true;
 	// Crear InputAction en tiempo de ejecución
 	ColocarBombaAction = NewObject<UInputAction>(this, TEXT("ColocarBombaAction"));
 	if (ColocarBombaAction)
@@ -89,6 +92,12 @@ void ABomberMan_012025Character::BeginPlay()
 	FVector NuevaPosicion(2470.0f, 4500.0f, 1340.0f); // X, Y, Z (ajusta esto según tu escenario)
 	SetActorLocation(NuevaPosicion);
 }
+void ABomberMan_012025Character::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	MostrarCoordenadasSiCerca(); // ← nueva función para mostrar coordenadas
+}
 // para colocar la bomba
 void ABomberMan_012025Character::ColocarBomba()
 {
@@ -99,6 +108,34 @@ void ABomberMan_012025Character::ColocarBomba()
 		GetWorld()->SpawnActor<ABomba>(ClaseBomba, Pos, FRotator::ZeroRotator);
 	}
 }
+void ABomberMan_012025Character::MostrarCoordenadasSiCerca()
+{
+	float RangoDeteccion = 200.f;
+
+	for (TActorIterator<ABomba> It(GetWorld()); It; ++It)
+	{
+		ABomba* Bomba = *It;
+		if (Bomba)
+		{
+			float Distancia = FVector::Dist(GetActorLocation(), Bomba->GetActorLocation());
+			if (Distancia <= RangoDeteccion)
+			{
+				FVector Ubicacion = Bomba->GetActorLocation();
+
+				FString Mensaje = FString::Printf(TEXT("🧨 Bomba cercana en: X=%.0f Y=%.0f Z=%.0f"),
+					Ubicacion.X, Ubicacion.Y, Ubicacion.Z);
+
+				if (GEngine)
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, Mensaje);
+				}
+
+				break;
+			}
+		}
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 

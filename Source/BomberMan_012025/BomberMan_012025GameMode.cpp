@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+ï»¿// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "BomberMan_012025GameMode.h"
 #include "BomberMan_012025Character.h"
@@ -12,7 +12,6 @@
 #include "BloqueLadrillo.h"
 #include "BloqueConcreto.h"
 #include "Ballom.h"
-
 ABomberMan_012025GameMode::ABomberMan_012025GameMode()
 {
 	// set default pawn class to our Blueprinted character
@@ -28,8 +27,13 @@ void ABomberMan_012025GameMode::BeginPlay()
 
     //portal
     FTransform Transform1, Transform3;
-    Transform1.SetLocation(FVector(1000.f, 2000.f, 1500.f)); // ejemplo
-    Transform3.SetLocation(FVector(900.f, 1500.f, 500.f));
+    // Posiciones
+    Transform1.SetLocation(FVector(310.f, 8070.f, 0.f));
+    Transform3.SetLocation(FVector(6220.f, 350.f, 0.f));
+
+    // Rotaciones
+    Transform1.SetRotation(FQuat(FRotator(0.f, 90.f, 0.f))); // â† Rota Compuerta 1 hacia otro lado
+    Transform3.SetRotation(FQuat(FRotator(0.f, 270.f, 0.f)));  // â† Rota Compuerta 3
 
     Compuerta1 = GetWorld()->SpawnActor<ACompuertaTeletransportadora>(ACompuertaTeletransportadora::StaticClass(), Transform1);
     Compuerta3 = GetWorld()->SpawnActor<ACompuertaTeletransportadora>(ACompuertaTeletransportadora::StaticClass(), Transform3);
@@ -42,7 +46,7 @@ void ABomberMan_012025GameMode::BeginPlay()
     //--------------------- portal hasta aca el codigo-----
 
     // Mapa del laberinto:
-   // 0 = vacío, 1 = madera, 2 = ladrillo, 3 = concreto, 4 = acero
+   // 0 = vacÃ­o, 1 = madera, 2 = ladrillo, 3 = concreto, 4 = acero
     MapaLaberinto = {
 {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
 {4,0,0,0,0,4,0,1,1,0,0,4,0,1,0,4,0,0,0,1,0,0,1,0,4},
@@ -76,8 +80,8 @@ void ABomberMan_012025GameMode::BeginPlay()
     };
 
     GenerarLaberinto();
-    // Spawnear un Ballom en una posición del laberinto
-    FVector PosicionBallom(2470.f, 4500.0f, 50.f);
+    // Spawnear un Ballom en una posiciÃ³n del laberinto
+    FVector PosicionBallom(2470.f, 4500.0f, 0.f);
     FRotator RotacionBallom = FRotator::ZeroRotator;
 
     FActorSpawnParameters SpawnParams;
@@ -87,14 +91,14 @@ void ABomberMan_012025GameMode::BeginPlay()
 
     if (EnemigoBallom)
     {
-        UE_LOG(LogTemp, Warning, TEXT("¡Ballom ha sido invocado!"));
+        UE_LOG(LogTemp, Warning, TEXT("Â¡Ballom ha sido invocado!"));
     }
     /*
     //PARA BLOQUE Y MURO INTERCALADOS
     GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Red, TEXT("Generando bloques y muros intercalados"));
 
-    const int totalBloques = 6; // Número total de bloques
-    const int totalMuros = 6;   // Número total de muros
+    const int totalBloques = 6; // NÃºmero total de bloques
+    const int totalMuros = 6;   // NÃºmero total de muros
     const float espacio = 600.0f; // Espacio entre elementos
 
     TArray<ABloque*> BloquesArray;
@@ -172,10 +176,10 @@ void ABomberMan_012025GameMode::GenerarLaberinto()
         // Recorre cada columna dentro de la fila actual (eje X)
         for (int32 X = 0; X < MapaLaberinto[Y].Num(); ++X)
         {
-            // Obtiene el tipo de bloque que hay en la posición (Y, X)
+            // Obtiene el tipo de bloque que hay en la posiciÃ³n (Y, X)
             int32 Tipo = MapaLaberinto[Y][X];
 
-            // Si el tipo es 0, se considera espacio vacío y no se genera nada
+            // Si el tipo es 0, se considera espacio vacÃ­o y no se genera nada
             if (Tipo == 0) continue;
 
             //creacion directamente desde que se genera x y y,
