@@ -120,8 +120,6 @@ void ABomberMan_012025GameMode::BeginPlay()
     }
 
 }
-
-
 void ABomberMan_012025GameMode::GenerarLaberinto()
 {
     // Define el espacio entre bloques del laberinto
